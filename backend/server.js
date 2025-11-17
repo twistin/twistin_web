@@ -171,7 +171,25 @@ app.delete('/api/events/:id', authenticateToken, (req, res) => {
         });
     });
 });
+// --- Configuración recomendada de CORS: ---
+app.use(cors({
+  origin: ['https://sdcarr.netlify.app'], // añade más dominios si lo necesitas
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
+app.options('*', cors());
 
+// --- ENDPOINT DE PANEL ADMIN ---
+// Protegido con JWT (requiere token Authorization: Bearer ...)
+app.get('/api/admin', authenticateToken, (req, res) => {
+  res.json({
+    ok: true,
+    message: 'Panel admin activo',
+    user: req.user,
+    info: 'Aquí puedes devolver la información de administración que quieras mostrar'
+  });
+});
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
