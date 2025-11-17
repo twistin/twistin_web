@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import EventForm from './EventForm';
 import Login from './Login';
-import { buildApiUrl, buildAssetUrl, getUploadsBaseUrl } from '../backendConfig';
+import { buildApiUrl, buildAssetUrl } from '../backendConfig';
 
 type MediaItem = {
 	src: string;
@@ -25,8 +25,6 @@ type RawAdminEvent = Omit<AdminEvent, 'images' | 'videos' | 'pdfs' | 'files'> & 
 	pdfs?: MediaItem[];
 	files?: MediaItem[];
 };
-
-const BACKEND_URL = getUploadsBaseUrl();
 
 const getStoredToken = () => {
 	if (typeof window === 'undefined') return null;

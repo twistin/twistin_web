@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { buildApiUrl, getUploadsBaseUrl } from './backendConfig';
+import { buildApiUrl, buildAssetUrl } from './backendConfig';
 
 // --- TYPE DEFINITIONS ---
 type Language = 'es' | 'en' | 'gl';
@@ -446,7 +446,6 @@ interface PortfolioProps {
     title: string;
     onSelectEvent: (id: string) => void;
     events: PortfolioEvent[];
-    backendUrl: string;
 }
 
 /**
@@ -454,19 +453,12 @@ interface PortfolioProps {
  * Comprueba si la ruta ya es una URL absoluta (empieza con http).
  * Si no, le añade la URL del backend.
  */
-function getImageUrl(src: string, backendUrl: string): string {
-    // Comprobación robusta por si 'src' es undefined o null
-    if (!src) {
-        return ''; // O una imagen placeholder
-    }
-    if (src.startsWith('http')) {
-        return src; // Ya es una URL completa (ej. de Google Storage)
-    }
-    return `${backendUrl}${src}`; // Es una ruta relativa (ej. /uploads/...)
+function getImageUrl(src: string): string {
+    return buildAssetUrl(src);
 }
 
 // --- Componente Portfolio ---
-const Portfolio: React.FC<PortfolioProps> = ({ title, onSelectEvent, events, backendUrl }) => (
+const Portfolio: React.FC<PortfolioProps> = ({ title, onSelectEvent, events }) => (
     <div className="space-y-10 max-w-5xl text-lg font-serif text-gray-800 dark:text-gray-300 animate-fade-in">
         <h3 className="text-4xl font-bold font-serif text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2">{title}</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -474,7 +466,7 @@ const Portfolio: React.FC<PortfolioProps> = ({ title, onSelectEvent, events, bac
                 <div key={event.id} className="space-y-3 group cursor-pointer" onClick={() => onSelectEvent(event.id)}>
                     <div className="overflow-hidden rounded-md">
                         <img 
-                            src={getImageUrl(event.coverImage.src, backendUrl)} 
+                            src={getImageUrl(event.coverImage.src)} 
                             alt={event.coverImage.alt} 
                             className="w-full h-96 object-cover transition-transform duration-300 group-hover:scale-105 bg-gray-200 dark:bg-gray-700" // Añadido fondo mientras carga
                         />
@@ -494,11 +486,10 @@ interface PortfolioDetailProps {
     event: PortfolioEvent;
     onClose: () => void;
     closeLabel: string;
-    backendUrl: string;
 }
 
 // --- Componente PortfolioDetail ---
-const PortfolioDetail: React.FC<PortfolioDetailProps> = ({ event, onClose, closeLabel, backendUrl }) => {
+const PortfolioDetail: React.FC<PortfolioDetailProps> = ({ event, onClose, closeLabel }) => {
     useEffect(() => {
         const handleEsc = (e: KeyboardEvent) => {
             if (e.key === 'Escape') onClose();
@@ -511,7 +502,7 @@ const PortfolioDetail: React.FC<PortfolioDetailProps> = ({ event, onClose, close
     const renderMedia = (item: Image, index: number) => (
         <img 
             key={`img-${index}`} 
-            src={getImageUrl(item.src, backendUrl)} 
+            src={getImageUrl(item.src)} 
             alt={item.alt} 
             className="w-full h-auto object-cover rounded-md" 
         />
@@ -520,7 +511,7 @@ const PortfolioDetail: React.FC<PortfolioDetailProps> = ({ event, onClose, close
     const renderVideo = (item: Image, index: number) => (
         <video 
             key={`vid-${index}`}
-            src={getImageUrl(item.src, backendUrl)} 
+            src={getImageUrl(item.src)} 
             controls 
             className="w-full h-auto rounded-md bg-black"
         >
@@ -531,7 +522,7 @@ const PortfolioDetail: React.FC<PortfolioDetailProps> = ({ event, onClose, close
     const renderPdf = (item: Image, index: number) => (
         <div key={`pdf-${index}`} className="p-4 border rounded-md text-center bg-gray-50 dark:bg-gray-800">
              <a 
-                href={getImageUrl(item.src, backendUrl)}
+                href={getImageUrl(item.src)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-brand-blue hover:underline font-semibold"
@@ -606,9 +597,8 @@ const App: React.FC = () => {
     const [language, setLanguage] = useState<Language>('es');
     const [theme, setTheme] = useState<Theme>('light');
 
-    // --- Estado para eventos y URL del backend ---
+    // --- Estado para eventos obtenidos del backend ---
     const [fetchedEvents, setFetchedEvents] = useState<PortfolioEvent[]>([]);
-    const BACKEND_URL = getUploadsBaseUrl();
 
     // --- Cargar eventos al iniciar ---
     useEffect(() => {
@@ -658,7 +648,6 @@ const App: React.FC = () => {
                                         title={t.portfolio.title} 
                                         onSelectEvent={setSelectedEventId}
                                         events={fetchedEvents}
-                                        backendUrl={BACKEND_URL}
                                     />;
             case 'contact': return <Contact content={t.contact} />;
             default: return null;
@@ -724,12 +713,10 @@ const App: React.FC = () => {
                 {renderView()}
             </main>
             
-            {/* --- Pasar 'BACKEND_URL' al modal de detalle --- */}
             {selectedEvent && <PortfolioDetail 
                                 event={selectedEvent} 
                                 onClose={() => setSelectedEventId(null)} 
                                 closeLabel={t.portfolio.modalClose}
-                                backendUrl={BACKEND_URL}
                             />}
             
             <footer className="text-center text-xs text-gray-400 dark:text-gray-500 py-4 mt-auto">
