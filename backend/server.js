@@ -32,7 +32,7 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;;
 
 const dbPath = path.join(__dirname, 'db.json');
 
