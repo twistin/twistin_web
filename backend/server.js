@@ -3,6 +3,7 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -13,8 +14,17 @@ const ADMIN_PASS = '01040704';
 
 const dbPath = path.join(__dirname, 'db.json');
 
-app.use(cors());
+// --- CORS seguro para Netlify frontend ---
+app.use(cors({
+  origin: ['https://sdcarr.netlify.app'], // agrega más dominios si quieres
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
+app.options('*', cors());
+
 app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Middleware para proteger rutas
 function authenticateToken(req, res, next) {
@@ -37,9 +47,16 @@ app.post('/api/login', (req, res) => {
     }
     res.status(401).json({ error: 'Credenciales incorrectas' });
 });
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-const multer = require('multer');
+// Endpoint de panel admin protegido
+app.get('/api/admin', authenticateToken, (req, res) => {
+  res.json({
+    ok: true,
+    message: 'Panel admin activo',
+    user: req.user,
+    info: 'Aquí puedes devolver la información de administración que quieras mostrar'
+  });
+});
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -86,7 +103,6 @@ app.get('/api/events/:id', (req, res) => {
         res.json(event);
     });
 });
-
 
 // Create a new event
 app.post('/api/events', authenticateToken, (req, res) => {
@@ -170,25 +186,6 @@ app.delete('/api/events/:id', authenticateToken, (req, res) => {
             res.status(204).send();
         });
     });
-});
-// --- Configuración recomendada de CORS: ---
-app.use(cors({
-  origin: ['https://sdcarr.netlify.app'], // añade más dominios si lo necesitas
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-}));
-app.options('*', cors());
-
-// --- ENDPOINT DE PANEL ADMIN ---
-// Protegido con JWT (requiere token Authorization: Bearer ...)
-app.get('/api/admin', authenticateToken, (req, res) => {
-  res.json({
-    ok: true,
-    message: 'Panel admin activo',
-    user: req.user,
-    info: 'Aquí puedes devolver la información de administración que quieras mostrar'
-  });
 });
 
 app.listen(port, () => {
