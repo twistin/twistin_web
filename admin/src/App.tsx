@@ -23,8 +23,10 @@ function App() {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
 
+  const BACKEND_URL = 'https://twistin-web.onrender.com';
+
   useEffect(() => {
-    fetch('/api/events')
+    fetch(`${BACKEND_URL}/api/events`)
       .then((res) => res.json())
       .then((data) => setEvents(data));
   }, []);
@@ -50,7 +52,7 @@ function App() {
   };
 
   const handleDelete = (id: string) => {
-    fetch(`/api/events/${id}`, {
+    fetch(`${BACKEND_URL}/api/events/${id}`, {
       method: 'DELETE',
       headers: token ? { 'Authorization': `Bearer ${token}` } : {},
     }).then(() => {
