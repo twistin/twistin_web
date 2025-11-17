@@ -1,2 +1,2 @@
-import App from '../admin/src/App';
-export default App;
+import AdminApp from './src/AdminApp';
+export default AdminApp;

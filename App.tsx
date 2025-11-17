@@ -656,7 +656,17 @@ const App: React.FC = () => {
             {/* Enlace al panel de administración */}
             {/* Enlace al panel de administración en el footer */}
             <footer className="text-center text-xs text-gray-400 dark:text-gray-500 py-4 mt-auto">
-                <p>{t.footer.replace('{year}', new Date().getFullYear().toString())}</p>
+                <p>
+                    {t.footer.replace('{year}', new Date().getFullYear().toString())}
+                    <span style={{marginLeft: '1rem'}}>
+                        <a href="/admin" style={{
+                            color: '#bbb',
+                            textDecoration: 'underline',
+                            fontSize: '0.9em',
+                            fontWeight: 400
+                        }}>Admin</a>
+                    </span>
+                </p>
             </footer>
         </div>
     );
