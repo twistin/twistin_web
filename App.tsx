@@ -23,6 +23,8 @@ interface PortfolioEvent {
     description: string;
     coverImage: Image;
     images: Image[];
+    videos?: { src: string; alt: string }[];
+    pdfs?: { src: string; alt: string }[];
 }
 
 // --- TRANSLATIONS ---
@@ -33,8 +35,8 @@ const translations = {
             title: 'Sobre Mí',
             p1: 'Mi perfil combina la práctica académica, la experiencia artística y la innovación tecnológica aplicada a la enseñanza musical. Cuento con más de cuatro décadas de experiencia musical y una trayectoria consolidada de 26 años de docencia continua en el ámbito reglado del Conservatorio Profesional de Música Reveriano Soutullo de Ponteareas.',
             p2: 'Esta combinación única me permite ofrecer servicios educativos con profundidad teórica, contextualización cultural y experiencia práctica demostrada en diversos ámbitos. Desde mi participación como miembro fundador de Aerolíneas Federales en los años 80 —una de las bandas más relevantes de la escena musical gallega— hasta mi actual investigación doctoral en la UNED sobre música, identidad y migración, y mi trabajo con música algorítmica y live coding, he mantenido un compromiso constante con la innovación musical y la comprensión profunda del fenómeno musical como práctica social, artística y tecnológica.',
-            p3: 'En la actualidad continúo con mi dedicación docente en el Conservatorio, combinándola con conciertos de mi proyecto de música por computadora Live Coding y la composición de obras que integran la música algorítmica con la tradición académica. Además, imparto talleres de SuperCollider y música algorítmica, orientados a la exploración de nuevas formas de creación sonora.',
-            p4: 'En 2022 colaboré con el capítulo "A escena musical da Galicia Posmoderna" dentro del libro 40 anos da MODA en Vigo, publicado por Guiverny, donde analizo las transformaciones culturales de Vigo y sus escenas musicales. Actualmente desarrollo el libro La Ciudad Eléctrica, un proyecto que cartografía los espacios, memorias y tensiones de la música urbana gallega.',
+            p3: 'En la actualidad continúo con mi dedicación docente en el Conservatorio, combinándola con conciertos de mi proyecto de música por computadora Live Coding y la composición de obras que integran la música algorítmica coa tradición académica. Además, imparto talleres de SuperCollider y música algorítmica, orientados a la exploración de nuevas formas de creación sonora.',
+            p4: 'En 2022 colaboré con el capítulo "A escena musical da Galicia Posmoderna" dentro del libro 40 anos da MODA en Vigo, publicado por Guiverny, donde analizo las transformaciónes culturales de Vigo y sus escenas musicales. Actualmente desarrollo el libro La Ciudad Eléctrica, un proyecto que cartografía los espacios, memorias y tensiones de la música urbana gallega.',
             formacionTitle: 'Formación Académica',
             formacionItems: [
                 'Años 80: Profesor Superior en Música, Especialidad en Guitarra Clásica.',
@@ -55,7 +57,7 @@ const translations = {
             docenciaP1: 'Conservatorio Profesional de Música Reveriano Soutullo (26 años de servicio)',
             docenciaP2: 'Imparto materias como Historia de la Música, Musicología, Nuevas Tecnologías, Guitarra Clásica y Eléctrica, integrando el estudio histórico con la práctica instrumental y el pensamiento crítico.',
             docenciaProyectosTitle: 'Proyectos y Desarrollo Tecnológico',
-            docenciaProyectosP: 'Combino la docencia con la creación de herramientas digitales para la enseñanza musical, como una plataforma de gestión para centros musicales y aplicaciones web interactivas.',
+            docenciaProyectosP: 'Combino la docencia coa creación de herramientas digitales para la enseñanza musical, como una plataforma de gestión para centros musicales y aplicaciones web interactivas.',
             investigacionTitle: 'Investigación Académica',
             investigacionP: 'Mi investigación en la UNED se centra en la relación entre música, identidad y migración. Analizo cómo las prácticas musicales articulan pertenencias y memorias en contextos migratorios, con un enfoque en la diáspora gallega y los colectivos migrantes en Galicia.',
             influenciasTitle: 'Influencias y Preferencias Musicales',
@@ -69,10 +71,10 @@ const translations = {
             work1P: 'Un paisaje sonoro inmersivo construido a partir de capas de entornos urbanos y naturales, manipulados digitalmente para revelar historias sónicas ocultas. La obra invita a los oyentes a navegar por un espacio definido por la memoria y la decadencia auditiva.',
             work2Title: 'Tension & Release (2021)',
             work2Desc: 'Performance en vivo para piano preparado y electrónica en tiempo real.',
-            work2P: 'Una exploración dinámica del timbre acústico y electrónico, donde la resonancia física del piano se extiende y transforma mediante síntesis granular y procesamiento espectral, creando un diálogo entre lo tangible y lo virtual.',
+            work2P: 'Una exploración dinámica del timbre acústico y electrónico, donde la resonancia física del piano se extiende y transforma mediante síntesis granular y procesamiento espectral, creando un diálogo entre o tangible y lo virtual.',
             work3Title: 'Sine Fields (2019)',
             work3Desc: 'Composición generativa para osciladores de ondas sinusoidales.',
-            work3P: 'Una pieza minimalista que utiliza tonos puros para esculpir fenómenos psicoácusticos. La composición evoluciona lentamente según principios algorítmicos, explorando cambios sutiles en la armonía, la disonancia y la percepción espacial.',
+            work3P: 'Una pieza minimalista que utiliza tonos puros para esculpir fenómenos psicoacústicos. La composición evoluciona lentamente según principios algorítmicos, explorando cambios sutiles en la armonía, la disonancia y la percepción espacial.',
         },
         research: {
             title: 'Investigación y Publicaciones',
@@ -98,6 +100,7 @@ const translations = {
         },
         footer: '© {year} Silvino Díaz Carreras'
     },
+    // ... (las otras traducciones 'en' y 'gl' van aquí, las omito por brevedad) ...
     en: {
         nav: { sobreMi: 'about me', works: 'works', research: 'research', portfolio: 'portfolio', contact: 'contact' },
         sobreMi: {
@@ -307,10 +310,6 @@ const NavItem: React.FC<NavItemProps> = ({ label, view, currentView, setView }) 
   );
 };
 
-// --- ELIMINADO: const portfolioEvents ---
-// Ya no necesitamos esta constante, cargaremos los datos desde la API.
-
-
 // --- CONTENT VIEW COMPONENTS ---
 const SobreMi: React.FC<{ content: typeof translations.es.sobreMi }> = ({ content }) => (
     <div className="space-y-8 max-w-3xl text-lg leading-relaxed font-serif text-gray-800 dark:text-gray-300 animate-fade-in">
@@ -441,7 +440,7 @@ const Research: React.FC<{ content: typeof translations.es.research }> = ({ cont
     </div>
 );
 
-// --- MODIFICADO: Definición de props para Portfolio ---
+// --- Definición de props para Portfolio ---
 interface PortfolioProps {
     title: string;
     onSelectEvent: (id: string) => void;
@@ -449,20 +448,34 @@ interface PortfolioProps {
     backendUrl: string;
 }
 
-// --- MODIFICADO: Componente Portfolio ---
+/**
+ * Función auxiliar para construir la URL de un recurso.
+ * Comprueba si la ruta ya es una URL absoluta (empieza con http).
+ * Si no, le añade la URL del backend.
+ */
+function getImageUrl(src: string, backendUrl: string): string {
+    // Comprobación robusta por si 'src' es undefined o null
+    if (!src) {
+        return ''; // O una imagen placeholder
+    }
+    if (src.startsWith('http')) {
+        return src; // Ya es una URL completa (ej. de Google Storage)
+    }
+    return `${backendUrl}${src}`; // Es una ruta relativa (ej. /uploads/...)
+}
+
+// --- Componente Portfolio ---
 const Portfolio: React.FC<PortfolioProps> = ({ title, onSelectEvent, events, backendUrl }) => (
     <div className="space-y-10 max-w-5xl text-lg font-serif text-gray-800 dark:text-gray-300 animate-fade-in">
         <h3 className="text-4xl font-bold font-serif text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2">{title}</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Usamos 'events' (de las props) en lugar de 'portfolioEvents' */}
             {events.map((event) => (
                 <div key={event.id} className="space-y-3 group cursor-pointer" onClick={() => onSelectEvent(event.id)}>
                     <div className="overflow-hidden rounded-md">
                         <img 
-                            // Construimos la URL completa de la imagen
-                            src={`${backendUrl}${event.coverImage.src}`} 
+                            src={getImageUrl(event.coverImage.src, backendUrl)} 
                             alt={event.coverImage.alt} 
-                            className="w-full h-96 object-cover transition-transform duration-300 group-hover:scale-105" 
+                            className="w-full h-96 object-cover transition-transform duration-300 group-hover:scale-105 bg-gray-200 dark:bg-gray-700" // Añadido fondo mientras carga
                         />
                     </div>
                     <div>
@@ -475,7 +488,7 @@ const Portfolio: React.FC<PortfolioProps> = ({ title, onSelectEvent, events, bac
     </div>
 );
 
-// --- MODIFICADO: Definición de props para PortfolioDetail ---
+// --- Definición de props para PortfolioDetail ---
 interface PortfolioDetailProps {
     event: PortfolioEvent;
     onClose: () => void;
@@ -483,7 +496,7 @@ interface PortfolioDetailProps {
     backendUrl: string;
 }
 
-// --- MODIFICADO: Componente PortfolioDetail ---
+// --- Componente PortfolioDetail ---
 const PortfolioDetail: React.FC<PortfolioDetailProps> = ({ event, onClose, closeLabel, backendUrl }) => {
     useEffect(() => {
         const handleEsc = (e: KeyboardEvent) => {
@@ -492,6 +505,41 @@ const PortfolioDetail: React.FC<PortfolioDetailProps> = ({ event, onClose, close
         window.addEventListener('keydown', handleEsc);
         return () => window.removeEventListener('keydown', handleEsc);
     }, [onClose]);
+
+    // Función para renderizar el contenido (imágenes, videos, PDFs)
+    const renderMedia = (item: Image, index: number) => (
+        <img 
+            key={`img-${index}`} 
+            src={getImageUrl(item.src, backendUrl)} 
+            alt={item.alt} 
+            className="w-full h-auto object-cover rounded-md" 
+        />
+    );
+
+    const renderVideo = (item: Image, index: number) => (
+        <video 
+            key={`vid-${index}`}
+            src={getImageUrl(item.src, backendUrl)} 
+            controls 
+            className="w-full h-auto rounded-md bg-black"
+        >
+            Tu navegador no soporta el tag de video.
+        </video>
+    );
+    
+    const renderPdf = (item: Image, index: number) => (
+        <div key={`pdf-${index}`} className="p-4 border rounded-md text-center bg-gray-50 dark:bg-gray-800">
+             <a 
+                href={getImageUrl(item.src, backendUrl)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-brand-blue hover:underline font-semibold"
+            >
+                Ver PDF: {item.alt || 'Documento'} ↗
+            </a>
+            <p className="text-sm text-gray-500 mt-2">Click para abrir en una nueva pestaña</p>
+        </div>
+    );
 
     return (
         <div 
@@ -511,16 +559,16 @@ const PortfolioDetail: React.FC<PortfolioDetailProps> = ({ event, onClose, close
                         ×
                     </button>
                 </div>
+                {/* --- SECCIÓN DE MEDIA ACTUALIZADA --- */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {event.images.map((image, index) => (
-                        <img 
-                            key={index} 
-                            // Construimos la URL completa de la imagen
-                            src={`${backendUrl}${image.src}`} 
-                            alt={image.alt} 
-                            className="w-full h-auto object-cover rounded-md" 
-                        />
-                    ))}
+                    {/* Renderiza todas las imágenes */}
+                    {event.images && event.images.map(renderMedia)}
+                    
+                    {/* Renderiza todos los videos */}
+                    {event.videos && event.videos.map(renderVideo)}
+                    
+                    {/* Renderiza todos los PDFs */}
+                    {event.pdfs && event.pdfs.map(renderPdf)}
                 </div>
             </div>
         </div>
@@ -557,17 +605,16 @@ const App: React.FC = () => {
     const [language, setLanguage] = useState<Language>('es');
     const [theme, setTheme] = useState<Theme>('light');
 
-    // --- AÑADIDO: Estado para eventos y URL del backend ---
+    // --- Estado para eventos y URL del backend ---
     const [fetchedEvents, setFetchedEvents] = useState<PortfolioEvent[]>([]);
-    const BACKEND_URL = 'https://twistin-web.onrender.com';
+    const BACKEND_URL = 'https://twistin-web.onrender.com'; // Esta es tu URL de producción
 
-    // --- AÑADIDO: Cargar eventos al iniciar ---
+    // --- Cargar eventos al iniciar ---
     useEffect(() => {
         fetch(`${BACKEND_URL}/api/events`)
             .then(res => res.json())
             .then(data => {
-                // Invertimos para que los más nuevos salgan primero
-                setFetchedEvents(data.reverse()); 
+                setFetchedEvents(data.reverse()); // Pone los más nuevos primero
             })
             .catch(err => console.error("Error al cargar eventos:", err));
     }, []); // El array vacío asegura que se ejecute solo una vez
@@ -596,7 +643,7 @@ const App: React.FC = () => {
 
     const t = translations[language];
     
-    // --- MODIFICADO: Usar 'fetchedEvents' para encontrar el evento seleccionado ---
+    // --- Usar 'fetchedEvents' para encontrar el evento seleccionado ---
     const selectedEvent = selectedEventId ? fetchedEvents.find(e => e.id === selectedEventId) : null;
 
     const renderView = () => {
@@ -606,7 +653,6 @@ const App: React.FC = () => {
             case 'works': return <Works content={t.works} />;
             case 'research': return <Research content={t.research} />;
             
-            // --- MODIFICADO: Pasar 'fetchedEvents' y 'BACKEND_URL' al componente Portfolio ---
             case 'portfolio': return <Portfolio 
                                         title={t.portfolio.title} 
                                         onSelectEvent={setSelectedEventId}
@@ -677,7 +723,7 @@ const App: React.FC = () => {
                 {renderView()}
             </main>
             
-            {/* --- MODIFICADO: Pasar 'BACKEND_URL' al modal de detalle --- */}
+            {/* --- Pasar 'BACKEND_URL' al modal de detalle --- */}
             {selectedEvent && <PortfolioDetail 
                                 event={selectedEvent} 
                                 onClose={() => setSelectedEventId(null)} 
@@ -685,8 +731,6 @@ const App: React.FC = () => {
                                 backendUrl={BACKEND_URL}
                             />}
             
-            {/* Enlace al panel de administración */}
-            {/* Enlace al panel de administración en el footer */}
             <footer className="text-center text-xs text-gray-400 dark:text-gray-500 py-4 mt-auto">
                 <p>
                     {t.footer.replace('{year}', new Date().getFullYear().toString())}
