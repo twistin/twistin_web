@@ -7,12 +7,10 @@ export default function RootApp() {
   return (
     <Router>
       <Routes>
-        {/*
-          CORRECCIÓN: Se añade '/*' al final del 'path'.
-          Esto asegura que el AdminPanel se muestre para CUALQUIER
-          ruta que comience con /admin/ (ej. /admin/ o /admin/edit/123)
-        */}
+        {/* Esto asegura que CUALQUIER ruta que empiece con /admin cargue el panel */}
         <Route path="/admin/*" element={<AdminPanel />} />
+        
+        {/* Esto carga la web principal para todo lo demás */}
         <Route path="/*" element={<MainApp />} />
       </Routes>
     </Router>
