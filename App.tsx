@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { buildApiUrl, getUploadsBaseUrl } from './backendConfig';
 
 // --- TYPE DEFINITIONS ---
 type Language = 'es' | 'en' | 'gl';
@@ -607,11 +608,11 @@ const App: React.FC = () => {
 
     // --- Estado para eventos y URL del backend ---
     const [fetchedEvents, setFetchedEvents] = useState<PortfolioEvent[]>([]);
-    const BACKEND_URL = 'https://twistin-web.onrender.com'; // Esta es tu URL de producción
+    const BACKEND_URL = getUploadsBaseUrl();
 
     // --- Cargar eventos al iniciar ---
     useEffect(() => {
-        fetch(`${BACKEND_URL}/api/events`)
+        fetch(buildApiUrl('/events'))
             .then(res => res.json())
             .then(data => {
                 setFetchedEvents(data.reverse()); // Pone los más nuevos primero

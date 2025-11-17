@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { buildApiUrl } from '../backendConfig';
 
 interface Event {
 	id: string;
@@ -69,7 +70,7 @@ function EventForm({ event, onSave, onCancel, token }: EventFormProps) {
 		if (coverImage) {
 			const formData = new FormData();
 			formData.append('file', coverImage);
-			const res = await fetch('https://twistin-web.onrender.com/api/upload', {
+			const res = await fetch(buildApiUrl('/upload'), {
 				method: 'POST',
 				body: formData,
 			});
@@ -82,7 +83,7 @@ function EventForm({ event, onSave, onCancel, token }: EventFormProps) {
 			for (let i = 0; i < images.length; i++) {
 				const formData = new FormData();
 				formData.append('file', images[i]);
-				const res = await fetch('https://twistin-web.onrender.com/api/upload', {
+				const res = await fetch(buildApiUrl('/upload'), {
 					method: 'POST',
 					body: formData,
 				});
@@ -97,7 +98,7 @@ function EventForm({ event, onSave, onCancel, token }: EventFormProps) {
 			for (let i = 0; i < videos.length; i++) {
 				const formData = new FormData();
 				formData.append('file', videos[i]);
-				const res = await fetch('https://twistin-web.onrender.com/api/upload', {
+				const res = await fetch(buildApiUrl('/upload'), {
 					method: 'POST',
 					body: formData,
 				});
@@ -111,7 +112,7 @@ function EventForm({ event, onSave, onCancel, token }: EventFormProps) {
 			for (let i = 0; i < pdfs.length; i++) {
 				const formData = new FormData();
 				formData.append('file', pdfs[i]);
-				const res = await fetch('https://twistin-web.onrender.com/api/upload', {
+				const res = await fetch(buildApiUrl('/upload'), {
 					method: 'POST',
 					body: formData,
 				});
@@ -125,7 +126,7 @@ function EventForm({ event, onSave, onCancel, token }: EventFormProps) {
 			for (let i = 0; i < files.length; i++) {
 				const formData = new FormData();
 				formData.append('file', files[i]);
-				const res = await fetch('https://twistin-web.onrender.com/api/upload', {
+				const res = await fetch(buildApiUrl('/upload'), {
 					method: 'POST',
 					body: formData,
 				});
@@ -134,7 +135,7 @@ function EventForm({ event, onSave, onCancel, token }: EventFormProps) {
 			}
 		}
 
-		const url = event ? `https://twistin-web.onrender.com/api/events/${event.id}` : `https://twistin-web.onrender.com/api/events`;
+		const url = buildApiUrl(event ? `/events/${event.id}` : '/events');
 		const method = event ? 'PUT' : 'POST';
 
 		const body = {

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { buildApiUrl } from '../backendConfig';
 
 interface LoginProps {
 	onLogin: (token: string) => void;
@@ -13,7 +14,7 @@ function Login({ onLogin }: LoginProps) {
 		e.preventDefault();
 		setError('');
 		try {
-			const res = await fetch('https://twistin-web.onrender.com/api/login', {
+			const res = await fetch(buildApiUrl('/login'), {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ username, password })
