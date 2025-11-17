@@ -166,39 +166,61 @@ function EventForm({ event, onSave, onCancel, token }: EventFormProps) {
 	};
 
 	return (
-		<form onSubmit={handleSubmit}>
-			<h2>{event ? 'Edit Event' : 'Add Event'}</h2>
-			<label>
-				Title:
-				<input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-			</label>
-			<label>
-				Description:
-				<textarea value={description} onChange={(e) => setDescription(e.target.value)} />
-			</label>
-			<label>
-				Cover Image:
-				<input type="file" name="coverImage" onChange={handleFileChange} />
-			</label>
-			<label>
-				Images:
-				<input type="file" name="images" multiple onChange={handleFileChange} />
-			</label>
-			<label>
-				Videos:
-				<input type="file" name="videos" multiple accept="video/*" onChange={handleFileChange} />
-			</label>
-			<label>
-				PDFs:
-				<input type="file" name="pdfs" multiple accept="application/pdf" onChange={handleFileChange} />
-			</label>
-			<label>
-				Otros archivos:
-				<input type="file" name="files" multiple onChange={handleFileChange} />
-			</label>
-			<button type="submit">Save</button>
-			<button type="button" onClick={onCancel}>Cancel</button>
-		</form>
+		<div style={{display:'flex',justifyContent:'center',alignItems:'center',minHeight:'60vh'}}>
+			<form onSubmit={handleSubmit} style={{
+				background:'#fff',
+				borderRadius:'16px',
+				boxShadow:'0 2px 16px rgba(0,0,0,0.08)',
+				padding:'2.5rem 2rem',
+				minWidth:'320px',
+				maxWidth:'420px',
+				width:'100%',
+				display:'flex',
+				flexDirection:'column',
+				gap:'1.2rem',
+				fontFamily:'inherit'
+			}}>
+				<h2 style={{textAlign:'center',marginBottom:'0.2rem',fontSize:'1.3rem',fontWeight:700}}>{event ? 'Editar evento' : 'Añadir evento'}</h2>
+				<div style={{display:'flex',flexDirection:'column',gap:'0.7rem'}}>
+					<label style={{fontWeight:500,fontSize:'1rem'}}>Título
+						<input type="text" value={title} onChange={e => setTitle(e.target.value)}
+							style={{width:'100%',marginTop:'0.3rem',padding:'0.5rem',borderRadius:'6px',border:'1px solid #ddd',fontSize:'1rem'}} />
+					</label>
+					<label style={{fontWeight:500,fontSize:'1rem'}}>Descripción
+						<textarea value={description} onChange={e => setDescription(e.target.value)}
+							style={{width:'100%',marginTop:'0.3rem',padding:'0.5rem',borderRadius:'6px',border:'1px solid #ddd',fontSize:'1rem',minHeight:'80px'}} />
+					</label>
+					<label style={{fontWeight:500,fontSize:'1rem'}}>Imagen principal
+						<input type="file" name="coverImage" onChange={handleFileChange}
+							style={{marginTop:'0.3rem'}} />
+					</label>
+					<label style={{fontWeight:500,fontSize:'1rem'}}>Imágenes
+						<input type="file" name="images" multiple onChange={handleFileChange}
+							style={{marginTop:'0.3rem'}} />
+					</label>
+					<label style={{fontWeight:500,fontSize:'1rem'}}>Videos
+						<input type="file" name="videos" multiple accept="video/*" onChange={handleFileChange}
+							style={{marginTop:'0.3rem'}} />
+					</label>
+					<label style={{fontWeight:500,fontSize:'1rem'}}>PDFs
+						<input type="file" name="pdfs" multiple accept="application/pdf" onChange={handleFileChange}
+							style={{marginTop:'0.3rem'}} />
+					</label>
+					<label style={{fontWeight:500,fontSize:'1rem'}}>Otros archivos
+						<input type="file" name="files" multiple onChange={handleFileChange}
+							style={{marginTop:'0.3rem'}} />
+					</label>
+				</div>
+				<div style={{display:'flex',gap:'1rem',marginTop:'1.2rem'}}>
+					<button type="submit" style={{
+						background:'#222',color:'#fff',border:'none',borderRadius:'6px',padding:'0.7rem 1.2rem',fontWeight:600,fontSize:'1rem',cursor:'pointer',flex:1
+					}}>Guardar</button>
+					<button type="button" onClick={onCancel} style={{
+						background:'#eee',color:'#222',border:'none',borderRadius:'6px',padding:'0.7rem 1.2rem',fontWeight:600,fontSize:'1rem',cursor:'pointer',flex:1
+					}}>Cancelar</button>
+				</div>
+			</form>
+		</div>
 	);
 }
 
