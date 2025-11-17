@@ -9,7 +9,7 @@ const port = process.env.PORT || 3001;
 
 const SECRET_KEY = 'tu_clave_secreta_segura'; // Cambia esto por una clave fuerte
 const ADMIN_USER = 'admin';
-const ADMIN_PASS = 'tu_password_segura';
+const ADMIN_PASS = '01040704';
 
 const dbPath = path.join(__dirname, 'db.json');
 
