@@ -166,58 +166,73 @@ function EventForm({ event, onSave, onCancel, token }: EventFormProps) {
 	};
 
 	return (
-		<div style={{display:'flex',justifyContent:'center',alignItems:'center',minHeight:'60vh'}}>
-			<form onSubmit={handleSubmit} style={{
-				background:'#fff',
-				borderRadius:'16px',
-				boxShadow:'0 2px 16px rgba(0,0,0,0.08)',
-				padding:'2.5rem 2rem',
-				minWidth:'320px',
-				maxWidth:'420px',
-				width:'100%',
-				display:'flex',
-				flexDirection:'column',
-				gap:'1.2rem',
-				fontFamily:'inherit'
-			}}>
-				<h2 style={{textAlign:'center',marginBottom:'0.2rem',fontSize:'1.3rem',fontWeight:700}}>{event ? 'Editar evento' : 'Añadir evento'}</h2>
-				<div style={{display:'flex',flexDirection:'column',gap:'0.7rem'}}>
-					<label style={{fontWeight:500,fontSize:'1rem'}}>Título
-						<input type="text" value={title} onChange={e => setTitle(e.target.value)}
-							style={{width:'100%',marginTop:'0.3rem',padding:'0.5rem',borderRadius:'6px',border:'1px solid #ddd',fontSize:'1rem'}} />
+		<div className="flex justify-center items-center min-h-[60vh] bg-gray-50 dark:bg-gray-900">
+			<form
+				onSubmit={handleSubmit}
+				className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 min-w-[320px] max-w-xl w-full flex flex-col gap-6 font-serif animate-fade-in border border-gray-200 dark:border-gray-700"
+			>
+				<h2 className="text-center mb-2 text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
+					{event ? 'Editar evento' : 'Añadir evento'}
+				</h2>
+				<div className="flex flex-col gap-4">
+					<label className="font-semibold text-base text-gray-800 dark:text-gray-200">
+						Título
+						<input
+							type="text"
+							value={title}
+							onChange={e => setTitle(e.target.value)}
+							className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-gray-600 text-lg bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-brand-blue"
+							placeholder="Título del evento"
+							required
+						/>
 					</label>
-					<label style={{fontWeight:500,fontSize:'1rem'}}>Descripción
-						<textarea value={description} onChange={e => setDescription(e.target.value)}
-							style={{width:'100%',marginTop:'0.3rem',padding:'0.5rem',borderRadius:'6px',border:'1px solid #ddd',fontSize:'1rem',minHeight:'80px'}} />
+					<label className="font-semibold text-base text-gray-800 dark:text-gray-200">
+						Descripción
+						<textarea
+							value={description}
+							onChange={e => setDescription(e.target.value)}
+							className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-gray-600 text-lg bg-gray-50 dark:bg-gray-700 min-h-[80px] focus:outline-none focus:ring-2 focus:ring-brand-blue"
+							placeholder="Describe el evento"
+							required
+						/>
 					</label>
-					<label style={{fontWeight:500,fontSize:'1rem'}}>Imagen principal
-						<input type="file" name="coverImage" onChange={handleFileChange}
-							style={{marginTop:'0.3rem'}} />
-					</label>
-					<label style={{fontWeight:500,fontSize:'1rem'}}>Imágenes
-						<input type="file" name="images" multiple onChange={handleFileChange}
-							style={{marginTop:'0.3rem'}} />
-					</label>
-					<label style={{fontWeight:500,fontSize:'1rem'}}>Videos
-						<input type="file" name="videos" multiple accept="video/*" onChange={handleFileChange}
-							style={{marginTop:'0.3rem'}} />
-					</label>
-					<label style={{fontWeight:500,fontSize:'1rem'}}>PDFs
-						<input type="file" name="pdfs" multiple accept="application/pdf" onChange={handleFileChange}
-							style={{marginTop:'0.3rem'}} />
-					</label>
-					<label style={{fontWeight:500,fontSize:'1rem'}}>Otros archivos
-						<input type="file" name="files" multiple onChange={handleFileChange}
-							style={{marginTop:'0.3rem'}} />
-					</label>
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+						<label className="font-semibold text-base text-gray-800 dark:text-gray-200">
+							Imagen principal
+							<input type="file" name="coverImage" onChange={handleFileChange} className="mt-1" />
+						</label>
+						<label className="font-semibold text-base text-gray-800 dark:text-gray-200">
+							Imágenes
+							<input type="file" name="images" multiple onChange={handleFileChange} className="mt-1" />
+						</label>
+						<label className="font-semibold text-base text-gray-800 dark:text-gray-200">
+							Videos
+							<input type="file" name="videos" multiple accept="video/*" onChange={handleFileChange} className="mt-1" />
+						</label>
+						<label className="font-semibold text-base text-gray-800 dark:text-gray-200">
+							PDFs
+							<input type="file" name="pdfs" multiple accept="application/pdf" onChange={handleFileChange} className="mt-1" />
+						</label>
+						<label className="font-semibold text-base text-gray-800 dark:text-gray-200">
+							Otros archivos
+							<input type="file" name="files" multiple onChange={handleFileChange} className="mt-1" />
+						</label>
+					</div>
 				</div>
-				<div style={{display:'flex',gap:'1rem',marginTop:'1.2rem'}}>
-					<button type="submit" style={{
-						background:'#222',color:'#fff',border:'none',borderRadius:'6px',padding:'0.7rem 1.2rem',fontWeight:600,fontSize:'1rem',cursor:'pointer',flex:1
-					}}>Guardar</button>
-					<button type="button" onClick={onCancel} style={{
-						background:'#eee',color:'#222',border:'none',borderRadius:'6px',padding:'0.7rem 1.2rem',fontWeight:600,fontSize:'1rem',cursor:'pointer',flex:1
-					}}>Cancelar</button>
+				<div className="flex gap-4 mt-6">
+					<button
+						type="submit"
+						className="bg-brand-blue hover:bg-blue-700 text-white rounded-md px-6 py-2 font-semibold text-lg transition-colors flex-1 shadow-sm"
+					>
+						Guardar
+					</button>
+					<button
+						type="button"
+						onClick={onCancel}
+						className="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 rounded-md px-6 py-2 font-semibold text-lg transition-colors flex-1 shadow-sm"
+					>
+						Cancelar
+					</button>
 				</div>
 			</form>
 		</div>
