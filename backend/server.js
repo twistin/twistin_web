@@ -1,9 +1,20 @@
+const express = require('express');
+const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
 const jwt = require('jsonwebtoken');
-const SECRET_KEY = 'tu_clave_secreta_segura'; // Cambia esto por una clave fuerte
 
-// Usuario y contraseña local (puedes cambiar estos valores)
+const app = express();
+const port = process.env.PORT || 3001;
+
+const SECRET_KEY = 'tu_clave_secreta_segura'; // Cambia esto por una clave fuerte
 const ADMIN_USER = 'admin';
 const ADMIN_PASS = 'tu_password_segura';
+
+const dbPath = path.join(__dirname, 'db.json');
+
+app.use(cors());
+app.use(express.json());
 
 // Middleware para proteger rutas
 function authenticateToken(req, res, next) {
@@ -26,18 +37,6 @@ app.post('/api/login', (req, res) => {
     }
     res.status(401).json({ error: 'Credenciales incorrectas' });
 });
-
-const express = require('express');
-const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
-const app = express();
-const port = process.env.PORT || 3001;;
-
-const dbPath = path.join(__dirname, 'db.json');
-
-app.use(cors());
-app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const multer = require('multer');
