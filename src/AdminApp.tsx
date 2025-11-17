@@ -1,15 +1,19 @@
 import { useState, useEffect } from 'react';
-import EventForm from './EventForm';
-// Tipos
+import EventForm from './EventForm'; // <-- AÑADIDO
+
+// Tipos - ACTUALIZADO para incluir videos, pdfs, y files
 interface Event {
   id: string;
   title: string;
   description: string;
   coverImage: { src: string; alt: string };
   images: { src: string; alt: string }[];
+  videos?: { src: string; alt: string }[];
+  pdfs?: { src: string; alt: string }[];
+  files?: { src: string; alt: string }[];
 }
 
-// Componente Login
+// Componente Login (Se mantiene igual)
 function Login({ onLogin }: { onLogin: (token: string) => void }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -77,133 +81,8 @@ function Login({ onLogin }: { onLogin: (token: string) => void }) {
   );
 }
 
-// Componente Formulario
-function EventForm({ event, onSave, onCancel, token }: any) {
-  const [title, setTitle] = useState(event?.title || '');
-  const [description, setDescription] = useState(event?.description || '');
-  const [coverImage, setCoverImage] = useState<File | null>(null);
-  const [images, setImages] = useState<FileList | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  const handleSave = async () => {
-    setLoading(true);
-    try {
-      let coverPath = event?.coverImage?.src || '';
-      
-      if (coverImage) {
-        const fd = new FormData();
-        fd.append('file', coverImage);
-        const res = await fetch('https://twistin-web.onrender.com/api/upload', {
-          method: 'POST',
-          body: fd,
-        });
-        const data = await res.json();
-        coverPath = data.filePath;
-      }
-
-      const imgPaths = event?.images?.map((img: any) => img.src) || [];
-      if (images) {
-        for (let i = 0; i < images.length; i++) {
-          const fd = new FormData();
-          fd.append('file', images[i]);
-          const res = await fetch('https://twistin-web.onrender.com/api/upload', {
-            method: 'POST',
-            body: fd,
-          });
-          const data = await res.json();
-          imgPaths.push(data.filePath);
-        }
-      }
-
-      const url = event 
-        ? `https://twistin-web.onrender.com/api/events/${event.id}` 
-        : 'https://twistin-web.onrender.com/api/events';
-      
-      const response = await fetch(url, {
-        method: event ? 'PUT' : 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          title,
-          description,
-          coverImage: { src: coverPath, alt: title },
-          images: imgPaths.map((path: string) => ({ src: path, alt: title })),
-        }),
-      });
-
-      const saved = await response.json();
-      onSave(saved);
-    } catch (err) {
-      alert('Error al guardar');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <h2 className="text-2xl font-bold mb-4">{event ? 'Editar' : 'Nuevo'} Evento</h2>
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-2">Título</label>
-            <input
-              type="text"
-              value={title}
-              onChange={e => setTitle(e.target.value)}
-              className="w-full px-4 py-2 border rounded-lg"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">Descripción</label>
-            <textarea
-              value={description}
-              onChange={e => setDescription(e.target.value)}
-              className="w-full px-4 py-2 border rounded-lg h-24"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">Portada</label>
-            <input
-              type="file"
-              onChange={e => setCoverImage(e.target.files?.[0] || null)}
-              className="w-full"
-              accept="image/*"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">Imágenes</label>
-            <input
-              type="file"
-              multiple
-              onChange={e => setImages(e.target.files)}
-              className="w-full"
-              accept="image/*"
-            />
-          </div>
-          <div className="flex gap-2">
-            <button
-              onClick={handleSave}
-              disabled={loading}
-              className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 disabled:bg-gray-400"
-            >
-              {loading ? 'Guardando...' : 'Guardar'}
-            </button>
-            <button
-              onClick={onCancel}
-              className="flex-1 bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600"
-            >
-              Cancelar
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+// --- SE HA ELIMINADO EL COMPONENTE EventForm INTERNO ---
+// Ahora se usará el importado de './EventForm.tsx'
 
 // App Principal
 export default function AdminApp() {
@@ -218,6 +97,7 @@ export default function AdminApp() {
 
   useEffect(() => {
     if (token) loadEvents();
+    else setLoading(false); // Si no hay token, no intentes cargar
   }, [token]);
 
   const loadEvents = async () => {
@@ -225,9 +105,9 @@ export default function AdminApp() {
       setLoading(true);
       setError('');
       const res = await fetch(`${BACKEND}/api/events`);
-      if (!res.ok) throw new Error('Error');
+      if (!res.ok) throw new Error('Error al cargar');
       const data = await res.json();
-      setEvents(data);
+      setEvents(data.reverse()); // Opcional: mostrar más nuevos primero
     } catch (err) {
       setError('Error al cargar eventos');
     } finally {
@@ -249,7 +129,8 @@ export default function AdminApp() {
     if (selectedEvent) {
       setEvents(events.map(e => e.id === saved.id ? saved : e));
     } else {
-      setEvents([...events, saved]);
+      // Añadir el nuevo evento al principio de la lista
+      setEvents([saved, ...events]);
     }
     setIsFormVisible(false);
     setSelectedEvent(null);
@@ -320,9 +201,12 @@ export default function AdminApp() {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
+                  {/* --- CABECERA DE TABLA ACTUALIZADA --- */}
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Título</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Descripción</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Imágenes</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Imág.</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Vídeos</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">PDFs</th>
                   <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Acciones</th>
                 </tr>
               </thead>
@@ -335,8 +219,15 @@ export default function AdminApp() {
                     <td className="px-6 py-4">
                       <div className="text-sm text-gray-500 line-clamp-2">{event.description}</div>
                     </td>
+                    {/* --- CELDAS DE TABLA ACTUALIZADAS --- */}
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {event.images?.length || 0}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {event.videos?.length || 0}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {event.pdfs?.length || 0}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm">
                       <button
@@ -360,12 +251,13 @@ export default function AdminApp() {
         )}
       </main>
 
+      {/* Esta llamada ahora usa el componente importado './EventForm.tsx' */}
       {isFormVisible && (
         <EventForm
           event={selectedEvent}
           onSave={handleSave}
           onCancel={() => { setIsFormVisible(false); setSelectedEvent(null); }}
-          token={token}
+          token={token!} // Sabemos que el token existe si el formulario es visible
         />
       )}
     </div>
