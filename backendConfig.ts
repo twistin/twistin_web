@@ -17,6 +17,7 @@ const normalizeOrigin = (value?: string) => {
 
 const ensureLeadingSlash = (path: string) => (path.startsWith('/') ? path : `/${path}`);
 const isAbsoluteUrl = (value: string) => /^https?:\/\//i.test(value);
+const isProtocolRelative = (value: string) => /^\/\//.test(value);
 const trimPath = (value?: string) => (value ?? '').trim();
 
 const envBackendOrigin = normalizeOrigin(import.meta.env.VITE_BACKEND_URL);
@@ -35,10 +36,33 @@ const API_BASE = backendOrigin ? `${backendOrigin}/api` : '/api';
 
 export const buildApiUrl = (path: string) => `${API_BASE}${ensureLeadingSlash(path)}`;
 
+const FORCE_HTTPS_HOSTS = new Set(['twistin-web.onrender.com']);
+
+const normalizeAbsoluteUrl = (value: string) => {
+	const normalized = trimPath(value);
+	if (!normalized) return '';
+	try {
+		if (isProtocolRelative(normalized)) {
+			const protocol =
+				(typeof window !== 'undefined' && window.location?.protocol) || 'https:';
+			return `${protocol}${normalized}`;
+		}
+		const parsed = new URL(normalized);
+		if (parsed.protocol === 'http:' && FORCE_HTTPS_HOSTS.has(parsed.hostname)) {
+			parsed.protocol = 'https:';
+		}
+		return parsed.toString();
+	} catch {
+		return normalized;
+	}
+};
+
 export const buildAssetUrl = (path: string) => {
 	const normalized = trimPath(path);
 	if (!normalized) return '';
-	if (isAbsoluteUrl(normalized)) return normalized;
+	if (isAbsoluteUrl(normalized) || isProtocolRelative(normalized)) {
+		return normalizeAbsoluteUrl(normalized);
+	}
 	return `${assetOrigin}${ensureLeadingSlash(normalized)}`;
 };
 
