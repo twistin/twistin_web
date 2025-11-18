@@ -23,12 +23,13 @@ const envBackendOrigin = normalizeOrigin(import.meta.env.VITE_BACKEND_URL);
 const envAssetsOrigin = normalizeOrigin(import.meta.env.VITE_ASSET_URL);
 
 const isDev = import.meta.env.DEV;
+const useDevProxy = isDev && import.meta.env.VITE_USE_DEV_PROXY === 'true';
 
-const backendOrigin = envBackendOrigin ?? (isDev ? '' : DEFAULT_PROD_ORIGIN);
+const backendOrigin = envBackendOrigin ?? (useDevProxy ? '' : DEFAULT_PROD_ORIGIN);
 const assetOrigin =
 	envAssetsOrigin ??
 	envBackendOrigin ??
-	(isDev ? computeDevAssetOrigin() : DEFAULT_PROD_ORIGIN);
+	(useDevProxy ? computeDevAssetOrigin() : DEFAULT_PROD_ORIGIN);
 
 const API_BASE = backendOrigin ? `${backendOrigin}/api` : '/api';
 

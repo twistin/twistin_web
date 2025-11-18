@@ -14,7 +14,7 @@ function Login({ onLogin }: LoginProps) {
 		e.preventDefault();
 		setError('');
 		try {
-			const res = await fetch('https://twistin-web.onrender.com/api/login', {
+			const res = await fetch(buildApiUrl('/login'), {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ username, password })
@@ -48,13 +48,27 @@ function Login({ onLogin }: LoginProps) {
 				<h2 style={{textAlign:'center',marginBottom:'0.2rem',fontSize:'1.3rem',fontWeight:700}}>Panel de administración</h2>
 				<div style={{textAlign:'center',color:'#888',fontSize:'0.95rem',marginBottom:'0.5rem'}}>Inicia sesión para gestionar el portfolio.</div>
 				<div style={{display:'flex',flexDirection:'column',gap:'0.7rem'}}>
-					<label style={{fontWeight:500,fontSize:'1rem'}}>Usuario
-						<input type="text" value={username} onChange={e => setUsername(e.target.value)}
-							style={{width:'100%',marginTop:'0.3rem',padding:'0.5rem',borderRadius:'6px',border:'1px solid #ddd',fontSize:'1rem'}} />
+					<label htmlFor="login-username" style={{fontWeight:500,fontSize:'1rem'}}>Usuario
+						<input
+							id="login-username"
+							name="username"
+							type="text"
+							value={username}
+							onChange={e => setUsername(e.target.value)}
+							autoComplete="username"
+							style={{width:'100%',marginTop:'0.3rem',padding:'0.5rem',borderRadius:'6px',border:'1px solid #ddd',fontSize:'1rem'}}
+						/>
 					</label>
-					<label style={{fontWeight:500,fontSize:'1rem'}}>Contraseña
-						<input type="password" value={password} onChange={e => setPassword(e.target.value)}
-							style={{width:'100%',marginTop:'0.3rem',padding:'0.5rem',borderRadius:'6px',border:'1px solid #ddd',fontSize:'1rem'}} />
+					<label htmlFor="login-password" style={{fontWeight:500,fontSize:'1rem'}}>Contraseña
+						<input
+							id="login-password"
+							name="password"
+							type="password"
+							value={password}
+							onChange={e => setPassword(e.target.value)}
+							autoComplete="current-password"
+							style={{width:'100%',marginTop:'0.3rem',padding:'0.5rem',borderRadius:'6px',border:'1px solid #ddd',fontSize:'1rem'}}
+						/>
 					</label>
 				</div>
 				<button type="submit" style={{
