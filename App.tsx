@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { buildApiUrl, buildAssetUrl } from './backendConfig';
+import acusImg from './media/acus.JPG';
+import bassImg from './media/bass.JPG';
+import aerolineasImg from './media/Aerolineas_live.jpg';
+import gitImg from './media/git.jpg';
+import labImg from './media/lab.png';
+import lcImg from './media/lc.png';
+import soundscapeImg from './media/soundscape_location.jpg';
 
 // --- TYPE DEFINITIONS ---
 type Language = 'es' | 'en' | 'gl';
@@ -313,86 +320,126 @@ const NavItem: React.FC<NavItemProps> = ({ label, view, currentView, setView }) 
 
 // --- CONTENT VIEW COMPONENTS ---
 const SobreMi: React.FC<{ content: typeof translations.es.sobreMi }> = ({ content }) => (
-    <div className="space-y-8 max-w-3xl text-lg leading-relaxed font-serif text-gray-800 dark:text-gray-300 animate-fade-in">
-        <h3 className="text-4xl font-bold font-serif text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2">{content.title}</h3>
-        
-        <p>{content.p1}</p>
-        <p>{content.p2}</p>
-        <p>{content.p3}</p>
-        <p>{content.p4}</p>
+        <div className="space-y-10 max-w-3xl mx-auto text-lg leading-relaxed font-serif text-gray-800 dark:text-gray-300 animate-fade-in">
+            <h3 className="text-4xl font-bold font-serif text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2">Sobre mí</h3>
 
-        <div className="my-6">
-            <img src="https://placehold.co/800x500/1f2937/9ca3af?text=Silvino+D%C3%ADaz+Carreras" alt="Silvino Díaz Carreras tocando la guitarra" className="w-full rounded-md shadow-md"/>
+            <section className="space-y-4">
+                <p>
+                      Mi trayectoria profesional y artística se caracteriza por la convergencia entre la docencia, la creación musical y la innovación interdisciplinar. Desde 1982, año en que fundé junto a Miguel Costas el grupo Aerolíneas Federales, he participado activamente en la escena musical gallega, contribuyendo a la dinamización cultural de Vigo y Galicia a través de la música.
+                </p>
+                <div className="grid grid-cols-2 gap-4 my-4">
+                    <div className="rounded-md shadow-md flex flex-col items-center">
+                        <div className="w-full aspect-square overflow-hidden rounded-md">
+                            <img src={acusImg} alt="Docencia en conservatorio" className="w-full h-full object-cover" />
+                        </div>
+                        <span className="mt-2 text-sm text-gray-600 dark:text-gray-400">Guitarra acústica en directo</span>
+                    </div>
+                    <div className="rounded-md shadow-md flex flex-col items-center">
+                        <div className="w-full aspect-square overflow-hidden rounded-md">
+                            <img src={bassImg} alt="Bajo eléctrico en directo" className="w-full h-full object-cover" />
+                        </div>
+                        <span className="mt-2 text-sm text-gray-600 dark:text-gray-400">Bajo eléctrico en directo</span>
+                    </div>
+                </div>
+            </section>
+
+            <section className="space-y-2">
+                <h4 className="text-2xl font-semibold text-gray-900 dark:text-white pt-4 border-t border-gray-200 dark:border-gray-700">Formación Académica y Proyectos de Investigación</h4>
+                <ul className="list-disc pl-6 space-y-1">
+                    <li>Profesor Superior de Música (especialidad Guitarra)</li>
+                    <li>Licenciado en Historia y Ciencias de la Música, Musicología</li>
+                    <li>DEA por la Universidad de Barcelona: “La música como elemento articulador de los cambios sociales y culturales en Vigo (1980-1990)”</li>
+                    <li>Doctorando en Sociología (UNED): Tesis en proceso “Cantando en tierra ajena: relatos musicales de la Galicia migrante”</li>
+                    <li>Proyecto actual: “La Ciudad Eléctrica”, cartografía de la música urbana en Vigo en los años 80</li>
+                </ul>
+            </section>
+
+            <section className="space-y-2">
+                <h4 className="text-2xl font-semibold text-gray-900 dark:text-white pt-4 border-t border-gray-200 dark:border-gray-700">Trayectoria Musical y Artística</h4>
+                <p>
+                    Mi carrera musical comenzó en 1982 con el grupo Bar, antecedente roquero de Aerolíneas Federales y precursor de La Movida Viguesa. Como guitarrista y compositor, contribuí a definir el sonido del grupo y la identidad de la escena gallega. Posteriormente, con Aerolíneas Federales y Los Feliz, desarrollé una discografía relevante y participé en la banda sonora del programa Xabarín Club, así como en colaboraciones con As Incribles Pancreas y el sello Elefant Records.
+                </p>
+                <p>
+                    He colaborado en la música de obras expuestas en “Olladas Oceánicas” (Museo Mar de Vigo, 2003) y participado en el libro “40 años de moda en Galicia” (Editorial Giverny, 2022), aportando el capítulo dedicado a la música y su impacto en la identidad gallega contemporánea.
+                </p>
+                <div className="my-4">
+                    <img 
+                        src={aerolineasImg} 
+                        alt="Aerolíneas Federales en directo" 
+                        className="w-full rounded-md shadow-md object-cover" 
+                    />
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 text-center">
+                        Aerolíneas Federales en directo, 1980s
+                    </p>
+                </div>
+            </section>
+
+            <section className="space-y-2">
+                <h4 className="text-2xl font-semibold text-gray-900 dark:text-white pt-4 border-t border-gray-200 dark:border-gray-700">Versatilidad Musical y Tecnológica</h4>
+                <p>
+                    Mi especialización abarca la guitarra clásica académica, el bajo eléctrico en contextos de música popular y la programación aplicada a la creación musical. Esta versatilidad se extiende al ámbito de la música algorítmica y el live coding, donde combino conocimientos musicales con habilidades de programación para explorar nuevas formas de creación e interpretación musical en tiempo real, integrando tradición y tecnología de vanguardia.
+                </p>
+                <p>
+                    Desarrollo una labor pionera en la captura y manipulación de paisajes sonoros de Galicia, utilizando grabaciones de campo como material sonoro primario en composiciones y proyectos de live coding, creando un puente único entre la tradición musical gallega y las tecnologías contemporáneas.
+                </p>
+            </section>
+
+            <section className="space-y-2">
+                <h4 className="text-2xl font-semibold text-gray-900 dark:text-white pt-4 border-t border-gray-200 dark:border-gray-700">Experiencia Docente</h4>
+                <p>
+                    <span className="font-semibold">Conservatorio Profesional de Música Reveriano Soutullo</span> (Ponteareas, Pontevedra) · 26 años de servicio continuo
+                </p>
+                <p>
+                    Mi labor docente integra el estudio histórico y analítico con la práctica instrumental y el pensamiento crítico, buscando que el alumnado entienda la música como lenguaje artístico y fenómeno cultural y social.
+                </p>
+                <h5 className="text-xl font-semibold pt-2">Materias impartidas:</h5>
+                <ul className="list-disc pl-6 space-y-1">
+                    <li>Historia de la Música</li>
+                    <li>Musicología</li>
+                    <li>Nuevas Tecnologías aplicadas a la Música</li>
+                    <li>Guitarra Clásica y Guitarra Eléctrica</li>
+                </ul>
+                <h5 className="text-xl font-semibold pt-2">Áreas de Especialización Docente</h5>
+                <ul className="list-disc pl-6 space-y-1">
+                    <li>Educación Instrumental y Técnica: guitarra clásica, guitarra eléctrica, bajo eléctrico, formación personalizada y mentoría artística</li>
+                    <li>Musicología y Teoría Musical: laboratorios de teoría, análisis y repertorio, orientación académica en investigación, transcripción y análisis comparativo</li>
+                    <li>Innovación y Tecnología Musical: integración de nuevas tecnologías, talleres de música algorítmica y live coding (SuperCollider), desarrollo de herramientas educativas interactivas, formación docente en metodologías híbridas</li>
+                </ul>
+                <h5 className="text-xl font-semibold pt-2">Proyectos y Desarrollo Tecnológico</h5>
+                <ul className="list-disc pl-6 space-y-1">
+                    <li>Plataforma de Gestión Educativa Musical: sistema completo para centros musicales con React y Django</li>
+                    <li>Formulario Interactivo EOI: aplicación web para gestión de material didáctico</li>
+                    <li>Blog: Son en tránsito: espacio de reflexión sobre música, cultura y tecnología</li>
+                    <li>Líneas de desarrollo: aplicaciones web educativas, asistentes inteligentes con IA, interfaces creativas con SuperCollider, talleres de música algorítmica, herramientas de análisis de audio y plataformas colaborativas</li>
+                </ul>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+                    <img src={gitImg} alt="Clase de guitarra" className="rounded-md shadow-md" />
+                    <img src={labImg} alt="Laboratorio de música" className="rounded-md shadow-md" />
+                </div>
+            </section>
+
+            <section className="space-y-2">
+                <h4 className="text-2xl font-semibold text-gray-900 dark:text-white pt-4 border-t border-gray-200 dark:border-gray-700">Habilidades Técnicas</h4>
+                <ul className="list-disc pl-6 space-y-1">
+                    <li>Python, TensorFlow, fastai</li>
+                    <li>SuperCollider</li>
+                    <li>HTML, CSS, JavaScript (React)</li>
+                </ul>
+            </section>
+
+            <section className="space-y-2">
+                <h4 className="text-2xl font-semibold text-gray-900 dark:text-white pt-4 border-t border-gray-200 dark:border-gray-700">Presencia Digital</h4>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-center">
+                    <a href="https://linktr.ee/silvinodiazcarreras" target="_blank" rel="noopener noreferrer" className="text-brand-blue hover:underline">Linktree</a>
+                    <a href="https://www.instagram.com/twistin/" target="_blank" rel="noopener noreferrer" className="text-brand-blue hover:underline">Instagram</a>
+                    <a href="https://vimeo.com/user7438711" target="_blank" rel="noopener noreferrer" className="text-brand-blue hover:underline">Vimeo</a>
+                    <a href="https://www.linkedin.com/in/silvino-d%C3%ADaz-carreras-b6446416/" target="_blank" rel="noopener noreferrer" className="text-brand-blue hover:underline">LinkedIn</a>
+                    <a href="https://github.com/twistin" target="_blank" rel="noopener noreferrer" className="text-brand-blue hover:underline">GitHub</a>
+                    <a href="https://www.researchgate.net/profile/Silvino-Diaz-Carreras" target="_blank" rel="noopener noreferrer" className="text-brand-blue hover:underline">ResearchGate</a>
+                    <a href="https://uab.academia.edu/SilvinoD%C3%ADazCarreras" target="_blank" rel="noopener noreferrer" className="text-brand-blue hover:underline">Academia.edu</a>
+                </div>
+            </section>
         </div>
-        
-        <section className="space-y-4">
-            <h4 className="text-2xl font-semibold text-gray-900 dark:text-white pt-4 border-t border-gray-200 dark:border-gray-700">{content.formacionTitle}</h4>
-            <ul className="list-none space-y-3">
-                {content.formacionItems.map((item, i) => <li key={i}>{item}</li>)}
-            </ul>
-        </section>
-
-        <section className="space-y-4">
-            <h4 className="text-2xl font-semibold text-gray-900 dark:text-white pt-4 border-t border-gray-200 dark:border-gray-700">{content.trayectoriaTitle}</h4>
-            <div className="space-y-6">
-                <div>
-                    <h5 className="text-xl font-semibold">{content.trayectoriaBarTitle}</h5>
-                    <p>{content.trayectoriaBarP}</p>
-                </div>
-                <div>
-                    <h5 className="text-xl font-semibold">{content.trayectoriaAaffTitle}</h5>
-                    <p>{content.trayectoriaAaffP}</p>
-                </div>
-                <div>
-                    <h5 className="text-xl font-semibold">{content.trayectoriaFelizTitle}</h5>
-                    <p>{content.trayectoriaFelizP}</p>
-                </div>
-            </div>
-        </section>
-
-        <section className="space-y-4">
-            <h4 className="text-2xl font-semibold text-gray-900 dark:text-white pt-4 border-t border-gray-200 dark:border-gray-700">{content.versatilidadTitle}</h4>
-            <p>{content.versatilidadP}</p>
-             <div className="my-6">
-                <img src="https://placehold.co/800x500/1f2937/9ca3af?text=Grabando+Soundscapes" alt="Silvino grabando soundscapes en paisaje costero de Galicia con equipo profesional" className="w-full rounded-md shadow-md"/>
-            </div>
-        </section>
-
-        <section className="space-y-4">
-            <h4 className="text-2xl font-semibold text-gray-900 dark:text-white pt-4 border-t border-gray-200 dark:border-gray-700">{content.docenciaTitle}</h4>
-            <p><strong>{content.docenciaP1}</strong></p>
-            <p>{content.docenciaP2}</p>
-            <h5 className="text-xl font-semibold pt-2">{content.docenciaProyectosTitle}</h5>
-            <p>{content.docenciaProyectosP}</p>
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
-                <img src="https://placehold.co/600x400/1f2937/9ca3af?text=Audici%C3%B3n+de+Guitarra" alt="Audición de guitarra con Silvino y estudiantes" className="w-full rounded-md shadow-md"/>
-                <img src="https://placehold.co/600x400/1f2937/9ca3af?text=Recital+de+Estudiantes" alt="Silvino dirigiendo recital de estudiantes" className="w-full rounded-md shadow-md"/>
-            </div>
-        </section>
-
-        <section className="space-y-4">
-            <h4 className="text-2xl font-semibold text-gray-900 dark:text-white pt-4 border-t border-gray-200 dark:border-gray-700">{content.investigacionTitle}</h4>
-            <p>{content.investigacionP}</p>
-        </section>
-
-        <section className="space-y-4">
-            <h4 className="text-2xl font-semibold text-gray-900 dark:text-white pt-4 border-t border-gray-200 dark:border-gray-700">{content.influenciasTitle}</h4>
-            <p>{content.influenciasP}</p>
-        </section>
-        
-        <section className="space-y-4">
-             <h4 className="text-2xl font-semibold text-gray-900 dark:text-white pt-4 border-t border-gray-200 dark:border-gray-700">{content.presenciaTitle}</h4>
-             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-center">
-                <a href="https://www.researchgate.net/profile/Silvino-Diaz-Carreras" target="_blank" rel="noopener noreferrer" className="text-brand-blue hover:underline">ResearchGate →</a>
-                <a href="https://uned.academia.edu/SilvinoDiazCarreras" target="_blank" rel="noopener noreferrer" className="text-brand-blue hover:underline">Academia.edu →</a>
-                <a href="https://open.spotify.com/artist/41azY3m2S8Zz9S0Irs5bA1" target="_blank" rel="noopener noreferrer" className="text-brand-blue hover:underline">Spotify →</a>
-                <a href="https://vimeo.com/user12557618" target="_blank" rel="noopener noreferrer" className="text-brand-blue hover:underline">Vimeo →</a>
-                <a href="https://sonentransito.blogspot.com/" target="_blank" rel="noopener noreferrer" className="text-brand-blue hover:underline">Blog →</a>
-                <a href="https://github.com/twistin" target="_blank" rel="noopener noreferrer" className="text-brand-blue hover:underline">GitHub →</a>
-                <a href="https://linktr.ee/silvinodiazcarreras" target="_blank" rel="noopener noreferrer" className="text-brand-blue hover:underline">Linktree →</a>
-             </div>
-        </section>
-    </div>
 );
 
 const Works: React.FC<{ content: typeof translations.es.works }> = ({ content }) => (
@@ -511,14 +558,14 @@ const PortfolioDetail: React.FC<PortfolioDetailProps> = ({ event, onClose, close
     const renderVideo = (item: Image, index: number) => (
         <video 
             key={`vid-${index}`}
-            src={getImageUrl(item.src)} 
+            src={getImageUrl(item.src)}
             controls 
             className="w-full h-auto rounded-md bg-black"
         >
             Tu navegador no soporta el tag de video.
         </video>
     );
-    
+
     const renderPdf = (item: Image, index: number) => (
         <div key={`pdf-${index}`} className="p-4 border rounded-md text-center bg-gray-50 dark:bg-gray-800">
              <a 
@@ -737,3 +784,17 @@ const App: React.FC = () => {
 };
 
 export default App;
+                <div className="grid grid-cols-2 gap-4 my-4">
+                    <div className="rounded-md shadow-md flex flex-col items-center">
+                        <div className="w-full aspect-square overflow-hidden rounded-md">
+                            <img src={lcImg} alt="Live coding en directo" className="w-full h-full object-cover" />
+                        </div>
+                        <span className="mt-2 text-sm text-gray-600 dark:text-gray-400">Live coding en directo</span>
+                    </div>
+                    <div className="rounded-md shadow-md flex flex-col items-center">
+                        <div className="w-full aspect-square overflow-hidden rounded-md">
+                            <img src={soundscapeImg} alt="Paisajes sonoros en Galicia" className="w-full h-full object-cover" />
+                        </div>
+                        <span className="mt-2 text-sm text-gray-600 dark:text-gray-400">Paisajes sonoros en Galicia</span>
+                    </div>
+                </div>
