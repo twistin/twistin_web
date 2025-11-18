@@ -229,6 +229,14 @@ export default function AdminApp() {
 						>
 							{loading ? 'Actualizando…' : 'Actualizar'}
 						</button>
+						<a
+							className="rounded-full border border-white/20 px-4 py-2 text-sm text-white hover:border-white/60"
+							href="/"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							Ver sitio
+						</a>
 						<button
 							type="button"
 							onClick={openNewEventForm}
